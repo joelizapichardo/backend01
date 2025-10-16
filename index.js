@@ -1,25 +1,20 @@
 const express = require('express');
-const cors = require('cors');
 const sequelize = require('./db');
-const clientes = require('./clientes');
+require('dotenv').config();
+
+const clienteRoutes = require('./models/routes/clientes.js');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
 
+// Conexión a la DB
 sequelize.authenticate()
-  .then(() => console.log("¡Te conectaste a la DB!"))
-  .catch(err => console.error("Error al conectar a la DB:", err));
+  .then(() => console.log("¡Te conectaste a PostgreSQL!"))
+  .catch(err => console.error(" Intenta otra vez:", err));
 
-
-
-app.get('/api/clientes', async (req, res) => {
-  try {
-    const clientes = await clientes.findAll();
-    res.json(clientes);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+app.use('/api/clientes', clienteRoutes);
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor escuchando en http://localhost:${PORT}`);
 });
 
-app.listen(3000, () => console.log("🚀 Servidor corriendo en http://localhost:3000"));
