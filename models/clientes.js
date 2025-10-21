@@ -4,7 +4,7 @@ const sequelize = require('../db'); // Asegúrate de que esta ruta a tu conexió
 // ----------------------------------------------------------------------
 
 const Cliente = sequelize.define('Cliente', {
-    id_cliente: {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
